@@ -3,6 +3,9 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	swaggerfiles "github.com/swaggo/files"
+    ginSwagger "github.com/swaggo/gin-swagger"
+    docs "git-search-api/cmd/docs"
 )
 
 type user struct {
@@ -21,7 +24,12 @@ func getUsers(c *gin.Context)  {
 
 func main() {
 	router := gin.Default()
-	router.GET("/users", getUsers)
 
-	router.Run("localhost:8080")
+	docs.SwaggerInfo.BasePath = "/api/v1"
+    
+    // Serve Swagger UI at /swagger/index.html
+    router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	setupRoutes(router)
+
+	router.Run(":8080")
 }

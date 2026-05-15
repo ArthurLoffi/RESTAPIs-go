@@ -1,0 +1,6 @@
+build:
+	go build ./cmd/app-gitsearch/.
+	.\app-gitsearch.exe
+
+docs:
+	swag init -g cmd/app-gitsearch/main.go --output cmd/docs
