@@ -3,7 +3,7 @@ definitions:
     properties:
       ID:
         type: string
-      Nome:
+      Name:
         type: string
     type: object
 info:
@@ -22,6 +22,21 @@ paths:
               $ref: '#/definitions/main.user'
             type: array
       summary: Lista todos os usuários
+      tags:
+      - users
+  /users/post:
+    post:
+      description: Adiciona um novo usuário ao json
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/main.user'
+            type: array
+      summary: Adicionar um novo usuário
       tags:
       - users
 swagger: "2.0"

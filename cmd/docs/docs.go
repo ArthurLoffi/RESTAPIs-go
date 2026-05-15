@@ -37,6 +37,29 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/users/post": {
+            "post": {
+                "description": "Adiciona um novo usuário ao json",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Adicionar um novo usuário",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.user"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -46,7 +69,7 @@ const docTemplate = `{
                 "ID": {
                     "type": "string"
                 },
-                "Nome": {
+                "Name": {
                     "type": "string"
                 }
             }

@@ -10,7 +10,7 @@ import (
 
 type user struct {
 	ID string `json:"ID"`
-	Name string `json:"Nome"`
+	Name string `json:"Name"`
 }
 
 var users = []user{
@@ -27,6 +27,29 @@ var users = []user{
 // @Router       /users [get]
 func getUsers(c *gin.Context)  {
 	c.IndentedJSON(http.StatusOK, users)
+}
+
+// PostUser godoc
+// @Summary      Adicionar um novo usuário
+// @Description  Adiciona um novo usuário ao json
+// @Tags         users
+// @Produce      json
+// @Success      201  {array}  user
+// @Router       /users/post [post]
+func postUser(c *gin.Context) {
+	var newUser user
+
+	if err := c.ShouldBindJSON(&newUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	users = append(users, newUser)
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "User created successfully",
+		"data": newUser,
+	})
 }
 
 func main() {
