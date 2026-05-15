@@ -1,4 +1,27 @@
+definitions:
+  main.user:
+    properties:
+      ID:
+        type: string
+      Nome:
+        type: string
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /users:
+    get:
+      description: Retorna a lista de usuários
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.user'
+            type: array
+      summary: Lista todos os usuários
+      tags:
+      - users
 swagger: "2.0"

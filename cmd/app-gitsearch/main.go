@@ -18,6 +18,13 @@ var users = []user{
 	{ID: "2", Name: "Caio"},
 }
 
+// GetUsers godoc
+// @Summary      Lista todos os usuários
+// @Description  Retorna a lista de usuários
+// @Tags         users
+// @Produce      json
+// @Success      200  {array}  user
+// @Router       /users [get]
 func getUsers(c *gin.Context)  {
 	c.IndentedJSON(http.StatusOK, users)
 }
