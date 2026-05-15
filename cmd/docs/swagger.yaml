@@ -24,6 +24,21 @@ paths:
       summary: Lista todos os usuários
       tags:
       - users
+  /users/delete:
+    post:
+      description: Remove o usuário com o determinado id no json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.user'
+            type: array
+      summary: Remover usuário por id
+      tags:
+      - users
   /users/post:
     post:
       description: Adiciona um novo usuário ao json

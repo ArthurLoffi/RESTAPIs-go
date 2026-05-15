@@ -52,6 +52,27 @@ func postUser(c *gin.Context) {
 	})
 }
 
+// PostUser godoc
+// @Summary      Remover usuário por id
+// @Description  Remove o usuário com o determinado id no json
+// @Tags         users
+// @Produce      json
+// @Success      200  {array}  user
+// @Router       /users/delete [post]
+func deleteUser(c *gin.Context) {
+	idUser := c.Param("ID")
+
+	for i, u := range users {
+		if u.ID == idUser {
+			users = append(users[:i], users[i+1:]...)
+			c.JSON(http.StatusOK, gin.H{"message": "Usuario deletado com sucesso"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{"message": "Usuario nao encontrado"})
+}
+
 func main() {
 	router := gin.Default()
 

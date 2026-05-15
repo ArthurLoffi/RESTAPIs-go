@@ -7,5 +7,6 @@ func setupRoutes(router *gin.Engine) {
 	{
 		v1.GET("/users", getUsers)
 		v1.POST("/users/post", postUser)
+		v1.DELETE("/users/delete/:ID", deleteUser)
 	}
 }

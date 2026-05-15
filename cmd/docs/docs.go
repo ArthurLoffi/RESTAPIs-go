@@ -38,6 +38,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/users/delete": {
+            "post": {
+                "description": "Remove o usuário com o determinado id no json",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Remover usuário por id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.user"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/post": {
             "post": {
                 "description": "Adiciona um novo usuário ao json",
