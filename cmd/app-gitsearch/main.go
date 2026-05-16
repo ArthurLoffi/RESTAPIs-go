@@ -2,77 +2,16 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	swaggerfiles "github.com/swaggo/files"
     ginSwagger "github.com/swaggo/gin-swagger"
     docs "git-search-api/cmd/docs"
 )
 
-type user struct {
-	ID string `json:"ID"`
-	Name string `json:"Name"`
-}
-
-var users = []user{
-	{ID: "1", Name: "Arthur"},
-	{ID: "2", Name: "Caio"},
-}
-
-// GetUsers godoc
-// @Summary      Lista todos os usuários
-// @Description  Retorna a lista de usuários
-// @Tags         users
-// @Produce      json
-// @Success      200  {array}  user
-// @Router       /users [get]
-func getUsers(c *gin.Context)  {
-	c.IndentedJSON(http.StatusOK, users)
-}
-
-// PostUser godoc
-// @Summary      Adicionar um novo usuário
-// @Description  Adiciona um novo usuário ao json
-// @Tags         users
-// @Produce      json
-// @Success      201  {array}  user
-// @Router       /users/post [post]
-func postUser(c *gin.Context) {
-	var newUser user
-
-	if err := c.ShouldBindJSON(&newUser); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	users = append(users, newUser)
-
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "User created successfully",
-		"data": newUser,
-	})
-}
-
-// PostUser godoc
-// @Summary      Remover usuário por id
-// @Description  Remove o usuário com o determinado id no json
-// @Tags         users
-// @Produce      json
-// @Success      200  {array}  user
-// @Router       /users/delete [post]
-func deleteUser(c *gin.Context) {
-	idUser := c.Param("ID")
-
-	for i, u := range users {
-		if u.ID == idUser {
-			users = append(users[:i], users[i+1:]...)
-			c.JSON(http.StatusOK, gin.H{"message": "Usuario deletado com sucesso"})
-			return
-		}
-	}
-
-	c.JSON(http.StatusNotFound, gin.H{"message": "Usuario nao encontrado"})
-}
-
+// @title           Git Search API
+// @version         1.0
+// @description     API de exemplo
+// @host            localhost:8080
+// @BasePath        /api/v1
 func main() {
 	router := gin.Default()
 

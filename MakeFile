@@ -1,4 +1,5 @@
 build:
+	go mod tidy
 	go build ./cmd/app-gitsearch/.
 	.\app-gitsearch.exe
 
