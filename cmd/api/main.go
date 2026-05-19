@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
     ginSwagger "github.com/swaggo/gin-swagger"
-    docs "git-search-api/cmd/docs"
+    docs "git-search-api/docs"
 )
 
 // @title           Git Search API
@@ -19,6 +19,11 @@ func main() {
     
     // Serve Swagger UI at /swagger/index.html
     router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	router.GET("/healty", func (c *gin.Context) {
+		c.JSON(200, gin.H{
+			"success": true,
+		})
+	})
 	setupRoutes(router)
 
 	router.Run(":8080")

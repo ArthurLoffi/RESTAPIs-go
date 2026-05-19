@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git-search-api/entity/user"
+	"git-search-api/internal/entities"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,7 +1,7 @@
 build:
 	go mod tidy
-	go build ./cmd/app-gitsearch/.
-	.\app-gitsearch.exe
+	go build ./cmd/api/.
+	.\api.exe
 
 docs:
-	swag init -g cmd/app-gitsearch/main.go --output cmd/docs
+	swag init -g cmd/api/main.go --output cmd/docs
