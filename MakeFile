@@ -1,7 +1,12 @@
 build:
 	go mod tidy
 	go build ./cmd/api/.
+
+run:
 	.\api.exe
 
 docs:
 	swag init -g cmd/api/main.go --output cmd/docs
+
+dev:
+	go run cmd/api/main.go

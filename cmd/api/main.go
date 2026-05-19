@@ -1,10 +1,12 @@
 package main
 
 import (
+	docs "git-search-api/docs"
+	"git-search-api/internal/repository"
+
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
-    ginSwagger "github.com/swaggo/gin-swagger"
-    docs "git-search-api/docs"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title           Git Search API
@@ -14,6 +16,8 @@ import (
 // @BasePath        /api/v1
 func main() {
 	router := gin.Default()
+
+	repository.Connect()
 
 	docs.SwaggerInfo.BasePath = "/api/v1"
     
