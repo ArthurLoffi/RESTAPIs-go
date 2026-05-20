@@ -1,4 +1,4 @@
-module git-search-api
+module restapis-go
 
 go 1.26.3
 

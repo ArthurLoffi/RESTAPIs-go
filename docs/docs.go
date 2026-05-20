@@ -39,7 +39,7 @@ const docTemplate = `{
             }
         },
         "/users/delete": {
-            "post": {
+            "delete": {
                 "description": "Remove o usuário com o determinado id no json",
                 "produces": [
                     "application/json"
@@ -106,7 +106,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "Git Search API",
+	Title:            "REST API go",
 	Description:      "API de exemplo",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

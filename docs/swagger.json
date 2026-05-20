@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "API de exemplo",
-        "title": "Git Search API",
+        "title": "REST API go",
         "contact": {},
         "version": "1.0"
     },
@@ -33,7 +33,7 @@
             }
         },
         "/users/delete": {
-            "post": {
+            "delete": {
                 "description": "Remove o usuário com o determinado id no json",
                 "produces": [
                     "application/json"

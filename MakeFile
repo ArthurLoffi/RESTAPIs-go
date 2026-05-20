@@ -6,7 +6,10 @@ run:
 	.\api.exe
 
 docs:
-	swag init -g cmd/api/main.go --output cmd/docs
+	swag init -g ./cmd/api/main.go --output ./docs
 
 dev:
 	go run cmd/api/main.go
+
+init:
+	go mod download

@@ -11,7 +11,7 @@ host: localhost:8080
 info:
   contact: {}
   description: API de exemplo
-  title: Git Search API
+  title: REST API go
   version: "1.0"
 paths:
   /users:
@@ -30,7 +30,7 @@ paths:
       tags:
       - users
   /users/delete:
-    post:
+    delete:
       description: Remove o usuário com o determinado id no json
       produces:
       - application/json
