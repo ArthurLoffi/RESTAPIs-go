@@ -11,7 +11,7 @@ func setupRoutes(router *gin.Engine) {
 
 	{
 		v1.GET("/users", use_cases.GetUsers)
-		v1.POST("/users/post", use_cases.NewUser)
+		v1.POST("/users/:name", use_cases.NewUser)
 		v1.DELETE("/users/delete/:ID", use_cases.DeleteUser)
 	}
 }

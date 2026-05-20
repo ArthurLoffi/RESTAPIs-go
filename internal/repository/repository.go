@@ -12,6 +12,8 @@ import (
 	"restapis-go/internal/entities"
 )
 
+var Database *gorm.DB
+
 func Connect() {
 	// Connect with gorm
 	err := godotenv.Load()
@@ -21,7 +23,10 @@ func Connect() {
 	}
 
 	dsn := os.Getenv("DATABASE_URL")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		DSN: dsn,
+		PreferSimpleProtocol: true,
+	}), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
@@ -44,5 +49,7 @@ func Connect() {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
 
+	// Variável global
+	Database = db
 	fmt.Println("Database migrated successfully!")
 }

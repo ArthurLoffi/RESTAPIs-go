@@ -4,28 +4,28 @@ import (
 	"net/http"
 	user "restapis-go/internal/entities"
 
+	"restapis-go/internal/repository"
+
 	"github.com/gin-gonic/gin"
 )
 
-// PostUser godoc
-// @Summary      Adicionar um novo usuário
-// @Description  Adiciona um novo usuário ao json
+// GetUsers godoc
+// @Summary      Lista todos os usuários
+// @Description  Retorna a lista de usuários
 // @Tags         users
 // @Produce      json
-// @Success      201  {array}  user.User
-// @Router       /users/post [post]
-func NewUser(c *gin.Context) {
-	var newUser user.User
+// @Success      200  {array}  user.User
+// @Router       /users [get]
+func GetUsers(c *gin.Context) {
+	var users []user.User
+	result := repository.Database.Find(&users)
 
-	if err := c.ShouldBindJSON(&newUser); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
 		return
 	}
 
-	user.Users = append(user.Users, newUser)
-
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "User created sucessfully",
-		"data":    newUser,
-	})
+	c.JSON(http.StatusOK, users)
 }
