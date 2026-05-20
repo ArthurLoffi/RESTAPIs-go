@@ -3,6 +3,7 @@ package use_cases
 import (
 	"net/http"
 	user "restapis-go/internal/entities"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,10 +16,17 @@ import (
 // @Success      200  {array}  user.User
 // @Router       /users/delete [delete]
 func DeleteUser(c *gin.Context) {
-	idUser := c.Param("ID")
+	idString := c.Param("ID")
+
+	id, err := strconv.ParseUint(idString, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Invalid ID",
+		})
+	}
 
 	for i, u := range user.Users {
-		if u.ID == idUser {
+		if u.ID == uint(id) {
 			user.Users = append(user.Users[:i], user.Users[i+1:]...)
 			c.JSON(http.StatusOK, gin.H{"message": "Deleted user sucessfully"})
 			return

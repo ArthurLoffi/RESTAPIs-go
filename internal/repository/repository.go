@@ -1,39 +1,48 @@
-// TROCAR TUDO ISSO POR GORM
-// FRAMEWORK PARA FACILITAR A CONEXÃO E FAZER OPERAÇÕES COM BASE JSON
-
-
 package repository
 
 import (
-	"context"
 	"fmt"
+	"log"
 	"os"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"restapis-go/internal/entities"
 )
 
 func Connect() {
+	// Connect with gorm
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, ".ENV not found, error: %v\n", err)
 		os.Exit(1)
 	}
 
-	connString := os.Getenv("DATABASE_URL")
-	if connString == "" {
-		fmt.Fprintf(os.Stderr, "Database not set\n")
-		os.Exit(1)
-	}
-
-	ctx := context.Background()
-
-	conn, err := pgx.Connect(ctx, connString)
+	dsn := os.Getenv("DATABASE_URL")
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
-		os.Exit(1)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
-	defer conn.Close(ctx)
 
-	fmt.Println("Connect with Database")
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatalf("Failed to get DB object: %v", err)
+	}
+
+	if err := sqlDB.Ping(); err != nil {
+		log.Fatalf("Failed to ping DB: %v", err)
+	}
+
+	fmt.Println("Successfully connect to Neon Postgres Database!")
+
+	err = db.AutoMigrate(&user.User{})
+	if err != nil {
+		log.Fatalf("Failed to migrate database: %v", err)
+	}
+
+	fmt.Println("Database migrated successfully!")
 }

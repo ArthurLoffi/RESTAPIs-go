@@ -8,8 +8,6 @@ run:
 docs:
 	swag init -g ./cmd/api/main.go --output ./docs
 
-dev:
-	go run cmd/api/main.go
-
+# Ao instalar o repo, rodar este comando
 init:
 	go mod download
