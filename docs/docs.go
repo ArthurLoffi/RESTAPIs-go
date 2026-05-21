@@ -90,10 +90,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "ID": {
-                    "type": "string"
+                    "type": "uint"
                 },
                 "Name": {
                     "type": "string"
+                },
+                "CreatedAt": {
+                    "type": "time.Time"
+                },
+                "UpdateAt": {
+                    "type": "time.Time"
                 }
             }
         }
