@@ -63,7 +63,7 @@ paths:
       summary: Remover usuário por id
       tags:
       - users
-  /users/post:
+  /users/post/:name:
     post:
       description: Adiciona um novo usuário ao json
       produces:
@@ -76,6 +76,21 @@ paths:
               $ref: '#/definitions/user.User'
             type: array
       summary: Adicionar um novo usuário
+      tags:
+      - users
+  /users/update/:id/:name:
+    patch:
+      description: Muda o nome do usuário definido por url, com id e name
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/user.User'
+            type: array
+      summary: Faz o update do user
       tags:
       - users
 swagger: "2.0"

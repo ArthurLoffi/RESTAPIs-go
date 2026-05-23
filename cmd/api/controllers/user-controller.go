@@ -71,3 +71,18 @@ func DeleteUser(c *gin.Context) {
 		"deleted": deletedUser,
 	})
 }
+
+func UpdateUser(c *gin.Context) {
+	idString := c.Param("ID")
+	name := c.Param("name")
+
+	updatedUser, err := use_cases.SetUpdateUser(name, idString)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, updatedUser)
+}

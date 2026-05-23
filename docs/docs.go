@@ -84,7 +84,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/post": {
+        "/users/post/:name": {
             "post": {
                 "description": "Adiciona um novo usuário ao json",
                 "produces": [
@@ -97,6 +97,29 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/user.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/update/:id/:name": {
+            "patch": {
+                "description": "Muda o nome do usuário definido por url, com id e name",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Faz o update do user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
