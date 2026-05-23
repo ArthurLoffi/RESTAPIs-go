@@ -42,6 +42,19 @@ func ListUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
+func ListUserByID(c *gin.Context) {
+	idString := c.Param("ID")
+	user, err := use_cases.GetUserByID(idString)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error": "User not found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
+
 func DeleteUser(c *gin.Context) {
 	idString := c.Param("ID")
 	deletedUser, err := use_cases.DeleteUser(idString)

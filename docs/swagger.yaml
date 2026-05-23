@@ -2,9 +2,13 @@ basePath: /api/v1
 definitions:
   user.User:
     properties:
-      ID:
+      createdAt:
         type: string
-      Name:
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
         type: string
     type: object
 host: localhost:8080
@@ -29,7 +33,22 @@ paths:
       summary: Lista todos os usuários
       tags:
       - users
-  /users/delete:
+  /users/:ID:
+    get:
+      description: Retorna o usuário filtrado por ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/user.User'
+            type: array
+      summary: Lista o usuário com o ID desejado
+      tags:
+      - users
+  /users/delete/:ID:
     delete:
       description: Remove o usuário com o determinado id no json
       produces:

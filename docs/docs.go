@@ -38,7 +38,30 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/delete": {
+        "/users/:ID": {
+            "get": {
+                "description": "Retorna o usuário filtrado por ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Lista o usuário com o ID desejado",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/user.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/delete/:ID": {
             "delete": {
                 "description": "Remove o usuário com o determinado id no json",
                 "produces": [
@@ -89,17 +112,17 @@ const docTemplate = `{
         "user.User": {
             "type": "object",
             "properties": {
-                "ID": {
-                    "type": "uint"
-                },
-                "Name": {
+                "createdAt": {
                     "type": "string"
                 },
-                "CreatedAt": {
-                    "type": "time.Time"
+                "id": {
+                    "type": "integer"
                 },
-                "UpdateAt": {
-                    "type": "time.Time"
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         }

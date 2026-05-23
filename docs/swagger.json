@@ -32,7 +32,30 @@
                 }
             }
         },
-        "/users/delete": {
+        "/users/:ID": {
+            "get": {
+                "description": "Retorna o usuário filtrado por ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Lista o usuário com o ID desejado",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/user.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/delete/:ID": {
             "delete": {
                 "description": "Remove o usuário com o determinado id no json",
                 "produces": [
@@ -83,10 +106,16 @@
         "user.User": {
             "type": "object",
             "properties": {
-                "ID": {
+                "createdAt": {
                     "type": "string"
                 },
-                "Name": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
