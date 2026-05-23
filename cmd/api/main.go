@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	docs "restapis-go/docs"
 	"restapis-go/internal/repository"
 
@@ -16,11 +17,12 @@ import (
 // @BasePath        /api/v1
 func main() {
 	router := gin.Default()
-
+	
 	repository.Connect()
-
+	
 	docs.SwaggerInfo.BasePath = "/api/v1"
-
+	
+	printBanner()
 	// Serve Swagger UI at /swagger/index.html
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	router.GET("/healty", func(c *gin.Context) {
@@ -31,4 +33,19 @@ func main() {
 	setupRoutes(router)
 
 	router.Run(":8080")
+}
+
+func printBanner() {
+	fmt.Println(`
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║   ██████╗ ███████╗███████╗████████╗     █████╗ ██████╗ ██╗   ║
+║   ██╔══██╗██╔════╝██╔════╝╚══██╔══╝    ██╔══██╗██╔══██╗██║   ║
+║   ██████╔╝█████╗  ███████╗   ██║       ███████║██████╔╝██║   ║
+║   ██╔══██╗██╔══╝  ╚════██║   ██║       ██╔══██║██╔═══╝ ██║   ║
+║   ██║  ██║███████╗███████║   ██║       ██║  ██║██║     ██║   ║
+║   ╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝       ╚═╝  ╚═╝╚═╝     ╚═╝   ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+`)
 }

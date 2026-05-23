@@ -1,11 +1,8 @@
 package use_cases
 
 import (
-	"net/http"
 	db "restapis-go/internal/repository"
 	user "restapis-go/internal/entities"
-
-	"github.com/gin-gonic/gin"
 )
 
 // DeleteUser godoc
@@ -15,22 +12,10 @@ import (
 // @Produce      json
 // @Success      200  {array}  user.User
 // @Router       /users/delete/:ID [delete]
-func DeleteUser(c *gin.Context) {
-	idString := c.Param("ID")
-
+func DeleteUser(idString string) (user.User, error){
 	var user user.User
 	result := db.Database.First(&user, idString)
-
-	if result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "user not found",
-		})
-		return
-	}
-
 	db.Database.Delete(&user)
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "user deleted successfully!",
-	})
+	return user, result.Error
 }

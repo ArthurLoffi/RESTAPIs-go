@@ -1,11 +1,8 @@
 package use_cases
 
 import (
-	"net/http"
 	user "restapis-go/internal/entities"
 	db "restapis-go/internal/repository"
-
-	"github.com/gin-gonic/gin"
 )
 
 // PostUser godoc
@@ -15,29 +12,13 @@ import (
 // @Produce      json
 // @Success      201  {array}  user.User
 // @Router       /users/post [post]
-func NewUser(c *gin.Context) {
-	nameNewUser := c.Param("name")
-
-	if nameNewUser == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Name can't empty",
-		})
-		return
-	}
-
-	newUser := user.User{
-		Name: nameNewUser,
-	}
+func CreateUser(name string) (*user.User, error){
+	newUser := user.User{Name: name}
 
 	result := db.Database.Create(&newUser)
 	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": result.Error.Error(),
-		})
-		return
+		return nil, result.Error
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "User created successfully",
-	})
+	return &newUser, nil
 }
