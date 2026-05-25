@@ -4,6 +4,7 @@ import (
 	"fmt"
 	docs "restapis-go/docs"
 	"restapis-go/internal/repository"
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -17,6 +18,12 @@ import (
 // @BasePath        /api/v1
 func main() {
 	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"http://localhost:5173"},
+		AllowMethods: []string{"GET", "POST", "DELETE", "PATCH"},
+		AllowHeaders: []string{"Content-Type"},
+	}))
 	
 	repository.Connect()
 	
