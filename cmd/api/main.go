@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	docs "restapis-go/docs"
+	"restapis-go/internal/middleware"
 	"restapis-go/internal/repository"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +27,10 @@ func main() {
 	gin.SetMode(ginMode)
 
 	router := gin.New()
+
+	// Garantir que não caia se tiver um panic
+	router.Use(gin.Recovery())
+	router.Use(middleware.Logger())
 	
 	repository.Connect()
 	
@@ -34,14 +39,12 @@ func main() {
 	printBanner()
 	// Serve Swagger UI at /swagger/index.html
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	router.GET("/healty", func(c *gin.Context) {
+	router.GET("/healthy", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"success": true,
 		})
 	})
 
-	// Garantir que não caia se tiver um panic
-	router.Use(gin.Recovery())
 
 	setupRoutes(router)
 
