@@ -2,12 +2,14 @@ package main
 
 import (
 	controller "restapis-go/cmd/api/controllers"
+	"restapis-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func setupRoutes(router *gin.Engine) {
 	v1 := router.Group("/api/v1")
+	v1.Use(middleware.Logger())
 
 	{
 		v1.GET("/users", controller.ListUsers)

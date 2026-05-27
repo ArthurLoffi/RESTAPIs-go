@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"os"
 	docs "restapis-go/docs"
 	"restapis-go/internal/repository"
-	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -17,13 +18,14 @@ import (
 // @host            localhost:8080
 // @BasePath        /api/v1
 func main() {
-	router := gin.Default()
+	godotenv.Load()
+	ginMode := os.Getenv("GIN_MODE")
+	if ginMode == "" {
+		ginMode = "debug"
+	}
+	gin.SetMode(ginMode)
 
-	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:5173"},
-		AllowMethods: []string{"GET", "POST", "DELETE", "PATCH"},
-		AllowHeaders: []string{"Content-Type"},
-	}))
+	router := gin.New()
 	
 	repository.Connect()
 	
@@ -37,6 +39,10 @@ func main() {
 			"success": true,
 		})
 	})
+
+	// Garantir que não caia se tiver um panic
+	router.Use(gin.Recovery())
+
 	setupRoutes(router)
 
 	router.Run(":8080")
