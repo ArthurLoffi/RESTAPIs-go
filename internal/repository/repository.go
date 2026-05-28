@@ -18,8 +18,7 @@ func Connect() {
 	// Connect with gorm
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, ".ENV not found, error: %v\n", err)
-		os.Exit(1)
+		log.Println(".ENV not found, using environment variables.")
 	}
 
 	dsn := os.Getenv("DATABASE_URL")
