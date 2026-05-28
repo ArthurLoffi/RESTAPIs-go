@@ -8,7 +8,15 @@ import (
 )
 
 func NewUser(c *gin.Context) {
-	name := c.Param("name")
+	var body map[string]interface{}
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	name := body["name"].(string)
 
 	if name == "" {
 		c.JSON(http.StatusBadRequest, gin.H{

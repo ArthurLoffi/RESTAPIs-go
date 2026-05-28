@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o app ./cmd/app-gitsearch/.
+RUN go build -o app ./cmd/api/.
 
 # Imagem final
 FROM debian:bookworm-slim
