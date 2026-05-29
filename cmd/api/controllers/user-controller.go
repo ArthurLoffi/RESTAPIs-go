@@ -3,12 +3,13 @@ package controller
 import (
 	"net/http"
 	use_cases "restapis-go/internal/use-cases"
+	"restapis-go/pkg"
 
 	"github.com/gin-gonic/gin"
 )
 
 func NewUser(c *gin.Context) {
-	var body map[string]interface{}
+	var body map[string]string
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
@@ -16,11 +17,11 @@ func NewUser(c *gin.Context) {
 		return
 	}
 
-	name := body["name"].(string)
+	name := body["name"]
 
-	if name == "" {
+	if name == "" || !pkg.ValidateName(name) {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "User can't empty",
+			"Error": "Name is not valid",
 		})
 		return
 	}
@@ -43,7 +44,7 @@ func ListUsers(c *gin.Context) {
 	users, err := use_cases.GetUsers()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"Error": err,
+			"Error": err.Error(),
 		})
 		return
 	}
@@ -83,12 +84,27 @@ func DeleteUser(c *gin.Context) {
 
 func UpdateUser(c *gin.Context) {
 	idString := c.Param("ID")
-	name := c.Param("name")
+	var body map[string]string
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	name := body["name"]
+
+	if name == "" || !pkg.ValidateName(name) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": "Name is not valid",
+		})
+		return
+	}
 
 	updatedUser, err := use_cases.SetUpdateUser(name, idString)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"Error": err.Error(),
 		})
 		return
 	}

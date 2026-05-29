@@ -19,6 +19,6 @@ func setupRoutes(router *gin.Engine) {
 		protect.GET("/:ID", controller.ListUserByID)
 		protect.POST("/post", controller.NewUser)
 		protect.DELETE("/delete/:ID", controller.DeleteUser)
-		protect.PATCH("/update/:ID/:name", controller.UpdateUser)
+		protect.PATCH("/update/:ID", controller.UpdateUser)
 	}
 }

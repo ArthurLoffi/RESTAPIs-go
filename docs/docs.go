@@ -130,7 +130,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/update/:id/:name": {
+        "/update": {
             "patch": {
                 "description": "Muda o nome do usuário definido por url, com id e name",
                 "produces": [

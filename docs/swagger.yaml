@@ -93,7 +93,7 @@ paths:
       summary: Adicionar um novo usuário
       tags:
       - users
-  /update/:id/:name:
+  /update:
     patch:
       description: Muda o nome do usuário definido por url, com id e name
       produces:

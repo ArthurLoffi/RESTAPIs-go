@@ -11,7 +11,7 @@ import (
 // @Tags         users
 // @Produce      json
 // @Success      200  {array}  user.User
-// @Router       /update/:id/:name [patch]
+// @Router       /update [patch]
 func SetUpdateUser(name string, idString string) (user.User, error) {
 	var updatedUser user.User
 	result := db.Database.Model(&user.User{}).Where("id = ?", idString).Updates(user.User{Name: name})

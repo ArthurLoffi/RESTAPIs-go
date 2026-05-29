@@ -1,3 +1,5 @@
+.PHONY: docs
+
 build:
 	go mod tidy
 	go build ./cmd/api/.
