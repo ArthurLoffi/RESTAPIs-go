@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 	use_cases "restapis-go/internal/use-cases"
+	errorf "restapis-go/internal/error"
 	"restapis-go/pkg"
 
 	"github.com/gin-gonic/gin"
@@ -11,26 +12,23 @@ import (
 func NewUser(c *gin.Context) {
 	var body map[string]string
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err,
-		})
+		e := http.StatusBadRequest
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 
 	name := body["name"]
 
 	if name == "" || !pkg.ValidateName(name) {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Name is not valid",
-		})
+		e := http.StatusBadRequest
+		c.JSON(e, errorf.FormatedError(e, "EOF"))
 		return
 	}
 
 	newUser, err := use_cases.CreateUser(name)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"Error": err.Error(),
-		})
+		e := http.StatusInternalServerError
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 
@@ -43,9 +41,8 @@ func NewUser(c *gin.Context) {
 func ListUsers(c *gin.Context) {
 	users, err := use_cases.GetUsers()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"Error": err.Error(),
-		})
+		e := http.StatusInternalServerError
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 
@@ -56,9 +53,8 @@ func ListUserByID(c *gin.Context) {
 	idString := c.Param("ID")
 	user, err := use_cases.GetUserByID(idString)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"Error": "User not found",
-		})
+		e := http.StatusNotFound
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 
@@ -70,9 +66,8 @@ func DeleteUser(c *gin.Context) {
 	deletedUser, err := use_cases.DeleteUser(idString)
 
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"Error": "User not found",
-		})
+		e := http.StatusNotFound
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 
@@ -86,26 +81,23 @@ func UpdateUser(c *gin.Context) {
 	idString := c.Param("ID")
 	var body map[string]string
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": err.Error(),
-		})
+		e := http.StatusBadRequest
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 
 	name := body["name"]
 
 	if name == "" || !pkg.ValidateName(name) {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Name is not valid",
-		})
+		e := http.StatusBadRequest
+		c.JSON(e, errorf.FormatedError(e, "EOF"))
 		return
 	}
 
 	updatedUser, err := use_cases.SetUpdateUser(name, idString)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": err.Error(),
-		})
+		e := http.StatusInternalServerError
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 

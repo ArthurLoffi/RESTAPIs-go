@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 	"os"
+	errorf "restapis-go/internal/error"
 	"restapis-go/internal/middleware"
 	use_cases "restapis-go/internal/use-cases"
 	"time"
@@ -17,17 +18,15 @@ func Login(c *gin.Context) {
 	}
 
 	if err := c.ShouldBindJSON(&body);err != nil || body.Name == ""{
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Name should not be null",
-		})
+		e := http.StatusBadRequest
+		c.JSON(e, errorf.FormatedError(e, "EOF"))
 		return
 	}
 
 	result, err := use_cases.AuthUser(body.Name)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"Error": err.Error(),
-		})
+		e := http.StatusUnauthorized
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 
@@ -43,9 +42,8 @@ func Login(c *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"Error": err.Error(),
-		})
+		e := http.StatusInternalServerError
+		c.JSON(e, errorf.FormatedError(e, err.Error()))
 		return
 	}
 
