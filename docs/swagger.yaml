@@ -18,7 +18,7 @@ info:
   title: REST API go
   version: "1.0"
 paths:
-  /users:
+  /:
     get:
       description: Retorna a lista de usuários
       produces:
@@ -33,7 +33,7 @@ paths:
       summary: Lista todos os usuários
       tags:
       - users
-  /users/:ID:
+  /:ID:
     get:
       description: Retorna o usuário filtrado por ID
       produces:
@@ -48,7 +48,7 @@ paths:
       summary: Lista o usuário com o ID desejado
       tags:
       - users
-  /users/delete/:ID:
+  /delete/:ID:
     delete:
       description: Remove o usuário com o determinado id no json
       produces:
@@ -63,7 +63,22 @@ paths:
       summary: Remover usuário por id
       tags:
       - users
-  /users/post/:name:
+  /login:
+    post:
+      description: Única rota pública para fazer login e receber o token
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/user.User'
+            type: array
+      summary: Rota para logar na API
+      tags:
+      - login
+  /post:
     post:
       description: Adiciona um novo usuário ao json
       produces:
@@ -78,7 +93,7 @@ paths:
       summary: Adicionar um novo usuário
       tags:
       - users
-  /users/update/:id/:name:
+  /update/:id/:name:
     patch:
       description: Muda o nome do usuário definido por url, com id e name
       produces:

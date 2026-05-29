@@ -11,7 +11,7 @@ import (
 // @Tags         users
 // @Produce      json
 // @Success      201  {array}  user.User
-// @Router       /users/post/:name [post]
+// @Router       /post [post]
 func CreateUser(name string) (*user.User, error){
 	newUser := user.User{Name: name}
 

@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/users": {
+        "/": {
             "get": {
                 "description": "Retorna a lista de usuários",
                 "produces": [
@@ -38,7 +38,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/:ID": {
+        "/:ID": {
             "get": {
                 "description": "Retorna o usuário filtrado por ID",
                 "produces": [
@@ -61,7 +61,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/delete/:ID": {
+        "/delete/:ID": {
             "delete": {
                 "description": "Remove o usuário com o determinado id no json",
                 "produces": [
@@ -84,7 +84,30 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/post/:name": {
+        "/login": {
+            "post": {
+                "description": "Única rota pública para fazer login e receber o token",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "login"
+                ],
+                "summary": "Rota para logar na API",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/user.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/post": {
             "post": {
                 "description": "Adiciona um novo usuário ao json",
                 "produces": [
@@ -107,7 +130,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/update/:id/:name": {
+        "/update/:id/:name": {
             "patch": {
                 "description": "Muda o nome do usuário definido por url, com id e name",
                 "produces": [

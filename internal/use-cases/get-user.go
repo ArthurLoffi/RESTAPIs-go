@@ -11,7 +11,7 @@ import (
 // @Tags         users
 // @Produce      json
 // @Success      200  {array}  user.User
-// @Router       /users [get]
+// @Router       / [get]
 func GetUsers() ([]user.User, error) {
 	var users []user.User
 	result := repository.Database.Find(&users)
@@ -25,7 +25,7 @@ func GetUsers() ([]user.User, error) {
 // @Tags         users
 // @Produce      json
 // @Success      200  {array}  user.User
-// @Router       /users/:ID [get]
+// @Router       /:ID [get]
 func GetUserByID(idString string) ([]user.User, error) {
 	var users []user.User
 	result := repository.Database.First(&users, idString)

@@ -11,7 +11,7 @@ import (
 // @Tags         users
 // @Produce      json
 // @Success      200  {array}  user.User
-// @Router       /users/delete/:ID [delete]
+// @Router       /delete/:ID [delete]
 func DeleteUser(idString string) (user.User, error){
 	var user user.User
 	result := db.Database.First(&user, idString)
