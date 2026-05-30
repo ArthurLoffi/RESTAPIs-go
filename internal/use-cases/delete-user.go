@@ -15,7 +15,10 @@ import (
 func DeleteUser(idString string) (user.User, error){
 	var user user.User
 	result := db.Database.First(&user, idString)
-	db.Database.Delete(&user)
 
+	// Se tiver erro retorna antes de passar para a outra query da DB
+	if result.Error != nil {return user, result.Error}
+
+	result = db.Database.Delete(&user)
 	return user, result.Error
 }
