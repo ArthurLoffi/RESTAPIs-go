@@ -15,7 +15,10 @@ import (
 func SetUpdateUser(name string, idString string) (user.User, error) {
 	var updatedUser user.User
 	result := db.Database.Model(&user.User{}).Where("id = ?", idString).Updates(user.User{Name: name})
+	
+	// Se tiver erro vai retornar imediatamente
+	if result.Error != nil {return updatedUser, result.Error}
 
-	db.Database.First(&updatedUser, idString)
+	result = db.Database.First(&updatedUser, idString)
 	return updatedUser, result.Error
 }
