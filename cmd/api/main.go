@@ -9,8 +9,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	swaggerfiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title           REST API go
@@ -18,6 +16,9 @@ import (
 // @description     API de exemplo
 // @host            localhost:8080
 // @BasePath        /api/v1
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	godotenv.Load()
 	ginMode := os.Getenv("GIN_MODE")
@@ -37,14 +38,6 @@ func main() {
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	
 	printBanner()
-	// Serve Swagger UI at /swagger/index.html
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	router.GET("/healthy", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"success": true,
-		})
-	})
-
 
 	setupRoutes(router)
 

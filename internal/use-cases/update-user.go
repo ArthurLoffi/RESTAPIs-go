@@ -12,6 +12,7 @@ import (
 // @Description  Muda o nome do usuário definido por url, com id e name
 // @Tags         users
 // @Produce      json
+// @Security     BearerAuth
 // @Success      200  {array}  user.User
 // @Router       /update [patch]
 func SetUpdateUser(name string, idString string) (user.User, *errorf.AppError) {

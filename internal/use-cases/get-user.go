@@ -12,6 +12,7 @@ import (
 // @Description  Retorna a lista de usuários
 // @Tags         users
 // @Produce      json
+// @Security     BearerAuth
 // @Success      200  {array}  user.User
 // @Router       / [get]
 func GetUsers() ([]user.User, *errorf.AppError) {
@@ -27,6 +28,7 @@ func GetUsers() ([]user.User, *errorf.AppError) {
 // @Description  Retorna o usuário filtrado por ID
 // @Tags         users
 // @Produce      json
+// @Security     BearerAuth
 // @Success      200  {array}  user.User
 // @Router       /:ID [get]
 func GetUserByID(idString string) ([]user.User, *errorf.AppError) {

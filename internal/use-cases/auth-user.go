@@ -12,6 +12,7 @@ import (
 // @Description  Única rota pública para fazer login e receber o token
 // @Tags         login
 // @Produce      json
+// @Security     BearerAuth
 // @Success      201  {array}  user.User
 // @Router       /login [post]
 func AuthUser(name string) (*user.User, *errorf.AppError) {

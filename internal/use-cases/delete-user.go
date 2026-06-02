@@ -12,6 +12,7 @@ import (
 // @Description  Remove o usuário com o determinado id no json
 // @Tags         users
 // @Produce      json
+// @Security     BearerAuth
 // @Success      200  {array}  user.User
 // @Router       /delete/:ID [delete]
 func DeleteUser(idString string) (user.User, *errorf.AppError){

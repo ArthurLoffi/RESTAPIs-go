@@ -4,13 +4,18 @@
         "description": "API de exemplo",
         "title": "REST API go",
         "contact": {},
-        "version": "1.0"
+        "version": "2.0"
     },
     "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
         "/": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retorna a lista de usuários",
                 "produces": [
                     "application/json"
@@ -34,6 +39,11 @@
         },
         "/:ID": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retorna o usuário filtrado por ID",
                 "produces": [
                     "application/json"
@@ -57,6 +67,11 @@
         },
         "/delete/:ID": {
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Remove o usuário com o determinado id no json",
                 "produces": [
                     "application/json"
@@ -80,6 +95,11 @@
         },
         "/login": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Única rota pública para fazer login e receber o token",
                 "produces": [
                     "application/json"
@@ -103,6 +123,11 @@
         },
         "/post": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Adiciona um novo usuário ao json",
                 "produces": [
                     "application/json"
@@ -126,6 +151,11 @@
         },
         "/update": {
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Muda o nome do usuário definido por url, com id e name",
                 "produces": [
                     "application/json"
@@ -165,6 +195,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

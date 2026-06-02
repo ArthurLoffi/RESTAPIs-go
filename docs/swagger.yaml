@@ -16,7 +16,7 @@ info:
   contact: {}
   description: API de exemplo
   title: REST API go
-  version: "1.0"
+  version: "2.0"
 paths:
   /:
     get:
@@ -30,6 +30,8 @@ paths:
             items:
               $ref: '#/definitions/user.User'
             type: array
+      security:
+      - BearerAuth: []
       summary: Lista todos os usuários
       tags:
       - users
@@ -45,6 +47,8 @@ paths:
             items:
               $ref: '#/definitions/user.User'
             type: array
+      security:
+      - BearerAuth: []
       summary: Lista o usuário com o ID desejado
       tags:
       - users
@@ -60,6 +64,8 @@ paths:
             items:
               $ref: '#/definitions/user.User'
             type: array
+      security:
+      - BearerAuth: []
       summary: Remover usuário por id
       tags:
       - users
@@ -75,6 +81,8 @@ paths:
             items:
               $ref: '#/definitions/user.User'
             type: array
+      security:
+      - BearerAuth: []
       summary: Rota para logar na API
       tags:
       - login
@@ -90,6 +98,8 @@ paths:
             items:
               $ref: '#/definitions/user.User'
             type: array
+      security:
+      - BearerAuth: []
       summary: Adicionar um novo usuário
       tags:
       - users
@@ -105,7 +115,14 @@ paths:
             items:
               $ref: '#/definitions/user.User'
             type: array
+      security:
+      - BearerAuth: []
       summary: Faz o update do user
       tags:
       - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retorna a lista de usuários",
                 "produces": [
                     "application/json"
@@ -40,6 +45,11 @@ const docTemplate = `{
         },
         "/:ID": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retorna o usuário filtrado por ID",
                 "produces": [
                     "application/json"
@@ -63,6 +73,11 @@ const docTemplate = `{
         },
         "/delete/:ID": {
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Remove o usuário com o determinado id no json",
                 "produces": [
                     "application/json"
@@ -86,6 +101,11 @@ const docTemplate = `{
         },
         "/login": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Única rota pública para fazer login e receber o token",
                 "produces": [
                     "application/json"
@@ -109,6 +129,11 @@ const docTemplate = `{
         },
         "/post": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Adiciona um novo usuário ao json",
                 "produces": [
                     "application/json"
@@ -132,6 +157,11 @@ const docTemplate = `{
         },
         "/update": {
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Muda o nome do usuário definido por url, com id e name",
                 "produces": [
                     "application/json"
@@ -172,12 +202,19 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "2.0",
 	Host:             "localhost:8080",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},

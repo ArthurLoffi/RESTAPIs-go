@@ -12,6 +12,7 @@ import (
 // @Description  Adiciona um novo usuário ao json
 // @Tags         users
 // @Produce      json
+// @Security     BearerAuth
 // @Success      201  {array}  user.User
 // @Router       /post [post]
 func CreateUser(name string) (*user.User, *errorf.AppError){

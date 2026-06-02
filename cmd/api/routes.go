@@ -5,15 +5,24 @@ import (
 	"restapis-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	swaggerfiles "github.com/swaggo/files"
 )
 
 func setupRoutes(router *gin.Engine) {
 	v1 := router.Group("/api/v1")
 	
 	v1.POST("/login", controller.Login)
+
+	v1.GET("/healthy", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"success": true,
+		})
+	})
 	
 	protect := v1.Group("/")
 	protect.Use(middleware.Auth())
+
 	{
 		protect.GET("/", controller.ListUsers)
 		protect.GET("/:ID", controller.ListUserByID)
@@ -21,4 +30,7 @@ func setupRoutes(router *gin.Engine) {
 		protect.DELETE("/delete/:ID", controller.DeleteUser)
 		protect.PATCH("/update/:ID", controller.UpdateUser)
 	}
+
+	// Serve Swagger UI at /swagger/index.html
+	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 }
