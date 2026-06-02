@@ -1,13 +1,22 @@
 package error
 
-type ErrorSyntax struct {
-	ErrorCode int `json:"Status"`
-	ErrorDescription string `json:"Description"`
+import "github.com/gin-gonic/gin"
+
+type AppError struct {
+    Status  int    `json:"status"`
+    Message string `json:"message"`
 }
 
-func FormatedError(httpStatus int, err string) ErrorSyntax {
-	return ErrorSyntax{
-        ErrorCode: httpStatus,
-        ErrorDescription: err,
-    }
+func New(status int, msg string) *AppError {
+    return &AppError{Status: status, Message: msg}
+}
+
+func (e *AppError) Error() string {
+    return e.Message
+}
+
+// internal/error/error.go
+func Respond(c *gin.Context, err *AppError) {
+    c.JSON(err.Status, err)
+    c.Abort()
 }

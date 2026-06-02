@@ -1,7 +1,9 @@
 package use_cases
 
 import (
+	"net/http"
 	user "restapis-go/internal/entities"
+	errorf "restapis-go/internal/error"
 	"restapis-go/internal/repository"
 )
 
@@ -12,11 +14,12 @@ import (
 // @Produce      json
 // @Success      200  {array}  user.User
 // @Router       / [get]
-func GetUsers() ([]user.User, error) {
+func GetUsers() ([]user.User, *errorf.AppError) {
 	var users []user.User
 	result := repository.Database.Find(&users)
+	if result.Error != nil {return users, errorf.New(http.StatusInternalServerError, "Can't get users")}
 
-	return users, result.Error
+	return users, nil
 }
 
 // GetUserByID godoc
@@ -26,9 +29,10 @@ func GetUsers() ([]user.User, error) {
 // @Produce      json
 // @Success      200  {array}  user.User
 // @Router       /:ID [get]
-func GetUserByID(idString string) ([]user.User, error) {
-	var users []user.User
-	result := repository.Database.First(&users, idString)
+func GetUserByID(idString string) ([]user.User, *errorf.AppError) {
+	var user []user.User
+	result := repository.Database.First(&user, idString)
+	if result.Error != nil {return user, errorf.New(http.StatusNotFound, "User not found")}
 
-	return users, result.Error
+	return user, nil
 }

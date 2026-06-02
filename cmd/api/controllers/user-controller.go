@@ -2,8 +2,9 @@ package controller
 
 import (
 	"net/http"
-	use_cases "restapis-go/internal/use-cases"
+
 	errorf "restapis-go/internal/error"
+	use_cases "restapis-go/internal/use-cases"
 	"restapis-go/pkg"
 
 	"github.com/gin-gonic/gin"
@@ -12,37 +13,32 @@ import (
 func NewUser(c *gin.Context) {
 	var body map[string]string
 	if err := c.ShouldBindJSON(&body); err != nil {
-		e := http.StatusBadRequest
-		c.JSON(e, errorf.FormatedError(e, err.Error()))
+		errorf.Respond(c, errorf.New(http.StatusBadRequest, "invalid request body"))
 		return
 	}
 
 	name := body["name"]
-
 	if name == "" || !pkg.ValidateName(name) {
-		e := http.StatusBadRequest
-		c.JSON(e, errorf.FormatedError(e, "EOF"))
+		errorf.Respond(c, errorf.New(http.StatusBadRequest, "invalid or missing name"))
 		return
 	}
 
 	newUser, err := use_cases.CreateUser(name)
 	if err != nil {
-		e := http.StatusInternalServerError
-		c.JSON(e, errorf.FormatedError(e, err.Error()))
+		errorf.Respond(c, err)
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User created successfully",
-		"user": newUser,
+		"user":    newUser,
 	})
 }
 
 func ListUsers(c *gin.Context) {
 	users, err := use_cases.GetUsers()
 	if err != nil {
-		e := http.StatusInternalServerError
-		c.JSON(e, errorf.FormatedError(e, err.Error()))
+		errorf.Respond(c, err)
 		return
 	}
 
@@ -50,11 +46,9 @@ func ListUsers(c *gin.Context) {
 }
 
 func ListUserByID(c *gin.Context) {
-	idString := c.Param("ID")
-	user, err := use_cases.GetUserByID(idString)
+	user, err := use_cases.GetUserByID(c.Param("ID"))
 	if err != nil {
-		e := http.StatusNotFound
-		c.JSON(e, errorf.FormatedError(e, err.Error()))
+		errorf.Respond(c, err)
 		return
 	}
 
@@ -62,12 +56,9 @@ func ListUserByID(c *gin.Context) {
 }
 
 func DeleteUser(c *gin.Context) {
-	idString := c.Param("ID")
-	deletedUser, err := use_cases.DeleteUser(idString)
-
+	deletedUser, err := use_cases.DeleteUser(c.Param("ID"))
 	if err != nil {
-		e := http.StatusNotFound
-		c.JSON(e, errorf.FormatedError(e, err.Error()))
+		errorf.Respond(c, err)
 		return
 	}
 
@@ -78,26 +69,21 @@ func DeleteUser(c *gin.Context) {
 }
 
 func UpdateUser(c *gin.Context) {
-	idString := c.Param("ID")
 	var body map[string]string
 	if err := c.ShouldBindJSON(&body); err != nil {
-		e := http.StatusBadRequest
-		c.JSON(e, errorf.FormatedError(e, err.Error()))
+		errorf.Respond(c, errorf.New(http.StatusBadRequest, "invalid request body"))
 		return
 	}
 
 	name := body["name"]
-
 	if name == "" || !pkg.ValidateName(name) {
-		e := http.StatusBadRequest
-		c.JSON(e, errorf.FormatedError(e, "EOF"))
+		errorf.Respond(c, errorf.New(http.StatusBadRequest, "invalid or missing name"))
 		return
 	}
 
-	updatedUser, err := use_cases.SetUpdateUser(name, idString)
+	updatedUser, err := use_cases.SetUpdateUser(name, c.Param("ID"))
 	if err != nil {
-		e := http.StatusInternalServerError
-		c.JSON(e, errorf.FormatedError(e, err.Error()))
+		errorf.Respond(c, err)
 		return
 	}
 

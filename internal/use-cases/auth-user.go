@@ -1,7 +1,9 @@
 package use_cases
 
 import (
+	"net/http"
 	user "restapis-go/internal/entities"
+	errorf "restapis-go/internal/error"
 	"restapis-go/internal/repository"
 )
 
@@ -12,11 +14,11 @@ import (
 // @Produce      json
 // @Success      201  {array}  user.User
 // @Router       /login [post]
-func AuthUser(name string) (*user.User, error) {
+func AuthUser(name string) (*user.User, *errorf.AppError) {
 	var user user.User
 	result := repository.Database.Where("name = ?", name).First(&user)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, errorf.New(http.StatusNotFound, "User don't exist")
 	}
 	return &user, nil
 }
