@@ -11,6 +11,7 @@ import (
 
 func setupRoutes(router *gin.Engine) {
 	v1 := router.Group("/api/v1")
+	v1.Use(middleware.Limiter())
 	
 	v1.POST("/login", controller.Login)
 
