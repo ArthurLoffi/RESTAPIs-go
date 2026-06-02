@@ -17,7 +17,7 @@ type Claims struct {
 
 func Auth() gin.HandlerFunc {
 	return func (c *gin.Context) {
-		authHeader := c.GetHeader("Auth")
+		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"Error": "Token not found",

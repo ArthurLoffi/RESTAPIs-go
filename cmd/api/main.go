@@ -14,7 +14,7 @@ import (
 )
 
 // @title           REST API go
-// @version         1.0
+// @version         2.0
 // @description     API de exemplo
 // @host            localhost:8080
 // @BasePath        /api/v1
@@ -52,7 +52,7 @@ func main() {
 }
 
 func printBanner() {
-	fmt.Println(`
+	fmt.Print(`
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
 ║   ██████╗ ███████╗███████╗████████╗     █████╗ ██████╗ ██╗   ║
