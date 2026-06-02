@@ -15,9 +15,14 @@ import (
 // @Security     BearerAuth
 // @Success      200  {array}  user.User
 // @Router       / [get]
-func GetUsers() ([]user.User, *errorf.AppError) {
+func GetUsers(page, pageSize int) ([]user.User, *errorf.AppError) {
 	var users []user.User
-	result := repository.Database.Find(&users)
+
+	offset := (page - 1) * pageSize
+
+
+
+	result := repository.Database.Offset(offset).Limit(pageSize).Find(&users)
 	if result.Error != nil {return users, errorf.New(http.StatusInternalServerError, "Can't get users")}
 
 	return users, nil

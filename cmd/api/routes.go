@@ -24,8 +24,8 @@ func setupRoutes(router *gin.Engine) {
 	protect.Use(middleware.Auth())
 
 	{
-		protect.GET("/", controller.ListUsers)
-		protect.GET("/:ID", controller.ListUserByID)
+		protect.GET("/users", controller.ListUsers)
+		protect.GET("/user/:ID", controller.ListUserByID)
 		protect.POST("/post", controller.NewUser)
 		protect.DELETE("/delete/:ID", controller.DeleteUser)
 		protect.PATCH("/update/:ID", controller.UpdateUser)

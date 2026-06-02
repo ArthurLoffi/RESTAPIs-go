@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	errorf "restapis-go/internal/error"
 	use_cases "restapis-go/internal/use-cases"
@@ -36,7 +37,10 @@ func NewUser(c *gin.Context) {
 }
 
 func ListUsers(c *gin.Context) {
-	users, err := use_cases.GetUsers()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "10"))
+
+	users, err := use_cases.GetUsers(page, pageSize)
 	if err != nil {
 		errorf.Respond(c, err)
 		return
