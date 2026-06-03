@@ -20,8 +20,6 @@ func GetUsers(page, pageSize int) ([]user.User, *errorf.AppError) {
 
 	offset := (page - 1) * pageSize
 
-
-
 	result := repository.Database.Offset(offset).Limit(pageSize).Find(&users)
 	if result.Error != nil {return users, errorf.New(http.StatusInternalServerError, "Can't get users")}
 

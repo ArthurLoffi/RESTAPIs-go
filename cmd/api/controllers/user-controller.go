@@ -18,13 +18,14 @@ func NewUser(c *gin.Context) {
 		return
 	}
 
-	name := body["name"]
+	name := body["Name"]
+	password := body["Password"]
 	if name == "" || !pkg.ValidateName(name) {
 		errorf.Respond(c, errorf.New(http.StatusBadRequest, "invalid or missing name"))
 		return
 	}
 
-	newUser, err := use_cases.CreateUser(name)
+	newUser, err := use_cases.CreateUser(name, password)
 	if err != nil {
 		errorf.Respond(c, err)
 		return

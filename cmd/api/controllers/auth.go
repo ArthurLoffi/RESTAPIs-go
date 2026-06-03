@@ -15,14 +15,19 @@ import (
 func Login(c *gin.Context) {
 	var body struct {
 		Name string `json:"name"`
+		Password string `json:"password"`
 	}
 
-	if err := c.ShouldBindJSON(&body); err != nil || body.Name == "" {
+	if err := c.ShouldBindJSON(&body); err != nil || body.Name == "" || body.Password == "" {
 		errorf.Respond(c, errorf.New(http.StatusBadRequest, "invalid request body"))
 		return
 	}
 
-	result, err := use_cases.AuthUser(body.Name)
+	result, err := use_cases.AuthUser(use_cases.LoginInput{
+		Name: body.Name,
+		Password: body.Password,
+	})
+	
 	if err != nil {
 		errorf.Respond(c, err)
 		return

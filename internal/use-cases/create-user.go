@@ -5,6 +5,8 @@ import (
 	user "restapis-go/internal/entities"
 	errorf "restapis-go/internal/error"
 	db "restapis-go/internal/repository"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // PostUser godoc
@@ -15,8 +17,15 @@ import (
 // @Security     BearerAuth
 // @Success      201  {array}  user.User
 // @Router       /post [post]
-func CreateUser(name string) (*user.User, *errorf.AppError){
-	newUser := user.User{Name: name}
+func CreateUser(name string, password string) (*user.User, *errorf.AppError){
+	newUser := user.User{Name: name, Password: password}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return &newUser, errorf.New(http.StatusInternalServerError, err.Error())
+	}
+
+	newUser.Password = string(hashedPassword)
 
 	result := db.Database.Create(&newUser)
 	if result.Error != nil {
